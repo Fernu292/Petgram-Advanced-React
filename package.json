@@ -25,6 +25,7 @@
   "homepage": "https://github.com/midudev/curso-platzi-react-avanzado#readme",
   "devDependencies": {
     "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.8",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
     "babel-loader": "^8.2.3",

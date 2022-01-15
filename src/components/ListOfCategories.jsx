@@ -1,19 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Category } from './Category';
 import { List } from '../styles/ListCategoriesStyle';
-import  db  from "../../api/db.json";
 
 export const ListOfCategories = () => {
-    const categories = db.categories;
+    const API_CATEGORIES = 'https://petgram-server-fernu-fernu292.vercel.app/categories';
+    const [categorias, setCategorias] = useState([]);
 
-    return (  
-        <List>
+    useEffect(() => {
+       const ApiFetch = async ()=>{
+           const response = await fetch(API_CATEGORIES);
+           const results = await response.json();
+
+           setCategorias(results);
+       }
+       ApiFetch();
+    }, [])
+
+    const renderList = (fixed) =>(
+        <List className={fixed ? "fixed" : ''}>
             {
-                categories.map( category =>(
+                categorias.map( category =>(
                     <li key={category.id}><Category {...category}/></li>
                 ))
             }
         </List>
+    )
+    return (  
+        <>
+            {renderList()}
+        </>
     );
 }
  

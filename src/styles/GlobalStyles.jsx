@@ -39,4 +39,10 @@ export const GlobalStyle = createGlobalStyle`
         min-height: 100vh;
         padding-bottom: 10px;
     }
+
+    .listOfCards{
+        margin: 1rem auto;
+        max-width: 90%;
+        padding-left: 0;
+    }
 `;
