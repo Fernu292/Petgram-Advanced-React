@@ -1,23 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import { Category } from './Category';
 import { List } from '../styles/ListCategoriesStyle';
+import { useCategoryData } from '../hooks/useCategoryData';
 
 export const ListOfCategories = () => {
-    const API_CATEGORIES = 'https://petgram-server-fernu-fernu292.vercel.app/categories';
-    const [categorias, setCategorias] = useState([]);
+    const [showFixed, setShowFixed] = useState(false);
 
-    useEffect(() => {
-       const ApiFetch = async ()=>{
-           const response = await fetch(API_CATEGORIES);
-           const results = await response.json();
+    const {categorias} = useCategoryData(process.env.API_CATEGORIES);
 
-           setCategorias(results);
-       }
-       ApiFetch();
-    }, [])
+    useEffect( ()=>{
+        const onScroll = e =>{
+            const newShowFixed = window.scrollY > 200;
+            showFixed != newShowFixed && setShowFixed(newShowFixed);
+        }
+
+        document.addEventListener( 'scroll', onScroll);
+
+        return () => document.removeEventListener('scroll', onScroll);
+    }, [showFixed])
 
     const renderList = (fixed) =>(
-        <List className={fixed ? "fixed" : ''}>
+        <List fixed={fixed}>
             {
                 categorias.map( category =>(
                     <li key={category.id}><Category {...category}/></li>
@@ -27,7 +30,9 @@ export const ListOfCategories = () => {
     )
     return (  
         <>
-            {renderList()}
+            { renderList() }
+
+            { showFixed && renderList(true)}
         </>
     );
 }
